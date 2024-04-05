@@ -1,4 +1,4 @@
-from .interfaces.cliente_interface import ICliente
+from cliente import ICliente
 from conta import Conta
 
 class ContaCorrente(Conta):
@@ -7,8 +7,8 @@ class ContaCorrente(Conta):
         numero: int, 
         agencia: str, 
         cliete: ICliente,
-        limite: float,
-        limite_saques: int,
+        limite: float = 1000,
+        limite_saques: int = 3,
         saldo: float = 0
     ) -> None:
         super().__init__(numero, agencia, cliete, saldo)

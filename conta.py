@@ -1,23 +1,24 @@
-from typing import Union
+from typing import Union, TypeVar
 
-from interfaces.cliente_interface import ICliente
 from historico import Historico
 
 class Conta:
-    def __init__(self, numero: int, agencia: str, cliete: Union[ICliente], saldo: float = 0) -> None:
+
+    Cliente = TypeVar('Cliente')
+    ITransacao = TypeVar('ITransacao')
+    def __init__(self, numero: int, agencia: str, saldo: float = 0) -> None:
         self._saldo: float = saldo
         self._numero: int = numero
         self._agencia: str = agencia
-        self._cliente: Union[ICliente] = cliete
         self._historico: Historico
 
     @property
     def saldo(self) -> float:
         return self._saldo or 0
     
-    @staticmethod
-    def nova_conta(cliente: ICliente, numero: int, agencia: str):
-        return Conta(cliete = cliente, numero = numero, agencia = agencia)
+    # @staticmethod
+    # def nova_conta(cliente: Union['Cliente'], numero: int, agencia: str):
+    #     return Conta(cliete = cliente, numero = numero, agencia = agencia)
 
     @saldo.setter
     def sacar(self, valor: float) -> str:
@@ -41,3 +42,11 @@ class Conta:
         else:
             self._saldo += valor
             return self._saldo
+        
+    @property
+    def verHistorico(self) -> Historico:
+        return self._historico
+    
+    @verHistorico.setter
+    def criarTransacao(self, transacao: Union['ITransacao']):
+        self._historico.adicionar_transacao(transacao)
