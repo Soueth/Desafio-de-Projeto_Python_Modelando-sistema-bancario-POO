@@ -2,13 +2,11 @@ from typing import List, TypeVar, Union
 
 from interfaces.transacao_interface import ITransacao
 
-
-from conta import Conta
+from conta_corrente import ContaCorrente
 class Cliente():
     def __init__(self, endereco: str):
         self._endereco: str = endereco
-
-        self._contas: List[Union[Conta]]
+        self._contas: List[ContaCorrente] = []
 
     @property
     def endereco(self):
@@ -20,9 +18,8 @@ class Cliente():
 
     @property
     def contas(self) :
-        return self._contas or []
+        return self._contas
     
-    @contas.setter
     def criar_conta(
         self, 
         numero: int, 
@@ -31,10 +28,6 @@ class Cliente():
         limite_saques: int = None, 
         saldo: int = None
     ):
-        self.contas.append(Conta(numero, agencia, limite, limite_saques, saldo))
-
-    def realizar_transacao(conta: Union['Conta'], transacao: ITransacao):
-        pass
-
-    def adicionar_conta(self, conta: Conta):
+        conta = ContaCorrente(numero, agencia, limite, limite_saques, saldo)
+        print(f"Conta criada!!!\n{conta}")
         self._contas.append(conta)

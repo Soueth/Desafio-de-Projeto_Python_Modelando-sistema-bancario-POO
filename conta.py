@@ -3,6 +3,7 @@ from typing import Union, TypeVar
 from historico import Historico
 
 class Conta:
+    historico: Historico = Historico()
 
     Cliente = TypeVar('Cliente')
     ITransacao = TypeVar('ITransacao')
@@ -10,12 +11,19 @@ class Conta:
         self._saldo: float = saldo
         self._numero: int = numero
         self._agencia: str = agencia
-        self._historico: Historico
+        
 
     @property
     def saldo(self) -> float:
         return self._saldo or 0
+
+    @property
+    def agencia(self):
+        return self._agencia
     
+    @property
+    def numero(self):
+        return self._numero
     # @staticmethod
     # def nova_conta(cliente: Union['Cliente'], numero: int, agencia: str):
     #     return Conta(cliete = cliente, numero = numero, agencia = agencia)
@@ -35,18 +43,15 @@ class Conta:
         return f'Saque bem sucedido! Seu saldo atual é de {self._saldo}.'
     
     @saldo.setter
-    def depositar(self, valor: float) -> float: 
+    def depositar(self, valor: float) -> float | None: 
+        print(valor)
         if valor <= 0:
             print("Não se pode depositar valores iguais ou menores do que zero")
- 
+
         else:
             self._saldo += valor
+            self.historico.adicionar_transacao(valor, 'deposito')
             return self._saldo
-        
-    @property
-    def verHistorico(self) -> Historico:
-        return self._historico
-    
-    @verHistorico.setter
-    def criarTransacao(self, transacao: Union['ITransacao']):
-        self._historico.adicionar_transacao(transacao)
+
+    def __str__(self) -> str:
+        return f'Agência {self._agencia} / NUM {self.numero}'

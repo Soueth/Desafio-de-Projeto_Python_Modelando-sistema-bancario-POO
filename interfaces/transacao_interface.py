@@ -9,8 +9,8 @@ class ITransacao(ABC):
         self._valor: float = valor
         self._tipo: Literal['deposito','saldo'] = tipo
 
-    @abstractmethod
-    def registrar():
+    @classmethod
+    def registrar(cls, data: date, valor: float, tipo: Literal['deposito', 'saldo']):
         pass
 
     @property
